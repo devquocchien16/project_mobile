@@ -1,0 +1,1 @@
+ D:\\Projects\\FashionStarShopMobile\\.dart_tool\\flutter_build\\1ea35a0e83606d795a2800833a19a71e\\native_assets.yaml: 
