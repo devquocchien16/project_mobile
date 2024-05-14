@@ -227,7 +227,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     variantShowed = variantList.firstWhere(
                                         (element) => element!.id == item.key!);
                                     saveReviews(variantShowed?.reviewDTOList);
-                                    if (variantShowed!.stockQuantity <=
+                                    if (variantShowed!.stockQuantity <
                                         number!) {
                                       Get.snackbar(
                                         "Warning",
@@ -484,19 +484,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       Row(
                         children: [
                           /// Sale Tag
-                          TRoundedContainer(
-                            radius: TSizes.sm,
-                            backgroundColor: TColors.secondary.withOpacity(0.8),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: TSizes.sm, vertical: TSizes.xs),
-                            child: Text(
-                              '25%',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .apply(color: Colors.black),
-                            ),
-                          ), // TRoundedContainer
+                          // TRoundedContainer(
+                          //   radius: TSizes.sm,
+                          //   backgroundColor: TColors.secondary.withOpacity(0.8),
+                          //   padding: const EdgeInsets.symmetric(
+                          //       horizontal: TSizes.sm, vertical: TSizes.xs),
+                          //   child: Text(
+                          //     '25%',
+                          //     style: Theme.of(context)
+                          //         .textTheme
+                          //         .labelLarge!
+                          //         .apply(color: Colors.black),
+                          //   ),
+                          // ), // TRoundedContainer
                           const SizedBox(width: TSizes.spaceBtwItems),
 
                           /// Price
@@ -701,6 +701,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   }
                 });
                 print("$item selected: $selected");
+                checkStock = true;
                 print(selectedItems);
                 for (var item in selectedItems.entries) {
                   data += item.value!;

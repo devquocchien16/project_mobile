@@ -100,7 +100,7 @@ class _CartScreenState extends State<CartScreen> {
               variantShowed =
                   variantList.firstWhere((element) => element!.id == item.key!);
 
-              if (variantShowed!.stockQuantity <=
+              if (variantShowed!.stockQuantity <
                   widget.cartLines[index].quantity) {
                 Get.snackbar(
                   "Warning",

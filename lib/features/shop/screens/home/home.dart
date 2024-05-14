@@ -1,11 +1,8 @@
 import 'package:fashion_star_shop/common/widgets/custom_shapes/containers/search_container.dart';
 import 'package:fashion_star_shop/features/shop/screens/home/widgets/home_appbar.dart';
-import 'package:fashion_star_shop/features/shop/screens/home/widgets/home_categories.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:fashion_star_shop/features/shop/models/Product.dart';
 import 'package:fashion_star_shop/services/products_service.dart';
-import 'package:fashion_star_shop/features/shop/screens/all_products/all_products.dart';
 import 'package:fashion_star_shop/common/widgets/products/product_cards/product_card_vertical.dart';
 import 'package:fashion_star_shop/common/widgets/texts/section_heading.dart';
 import 'package:fashion_star_shop/utils/constants/sizes.dart';
