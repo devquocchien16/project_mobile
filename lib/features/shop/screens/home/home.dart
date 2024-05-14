@@ -40,19 +40,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   // Phần header của bạn ở đây
                   THomeAppBar(),
                   SizedBox(height: TSizes.spaceBtwSections),
-                  TSearchContainer(text: "search",),
+                  TSearchContainer(
+                    text: "search",
+                  ),
                   SizedBox(height: TSizes.spaceBtwSections),
                   Padding(
                     padding: EdgeInsets.only(left: TSizes.defaultSpace),
                     child: Column(
                       children: [
-                        TSectionHeading(title: 'Categories', showActionButton: false,),
-                        SizedBox(height: TSizes.spaceBtwItems,),
+                        TSectionHeading(
+                          title: 'Categories',
+                          showActionButton: false,
+                        ),
+                        SizedBox(
+                          height: TSizes.spaceBtwItems,
+                        ),
                         // THomeCategories(),
                       ],
                     ),
                   ),
-                  SizedBox(height: TSizes.spaceBtwSections,),
+                  SizedBox(
+                    height: TSizes.spaceBtwSections,
+                  ),
                 ],
               ),
             ),
@@ -61,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   // Phần slider và heading 'All products' của bạn ở đây
-                  SizedBox(height: TSizes.spaceBtwSections),
+                  const SizedBox(height: TSizes.spaceBtwSections),
                   FutureBuilder<List<Product>>(
                     future: futureProducts,
                     builder: (context, snapshot) {
@@ -72,8 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       } else if (snapshot.hasData) {
                         return GridView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
@@ -82,8 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             return SizedBox(
-                              width: MediaQuery.of(context).size.width / 2, // 15 là tổng margin và spacing
-                              child: TProductCardVertical(product: snapshot.data![index], productId: 0,),
+                              width: MediaQuery.of(context).size.width /
+                                  2, // 15 là tổng margin và spacing
+                              child: TProductCardVertical(
+                                product: snapshot.data![index],
+                                productId: 0,
+                              ),
                             );
                           },
                         );

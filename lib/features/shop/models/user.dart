@@ -4,7 +4,7 @@ class User {
   final String? email;
   final String? phone;
   final bool? gender;
-  final bool? enabled;
+  final DateTime? birthday;
 
   User({
     this.id,
@@ -12,17 +12,18 @@ class User {
     required this.email,
     required this.phone,
     required this.gender,
-    required this.enabled,
+    required this.birthday,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        id: json['id'] ?? 0,
-        clientName: json['clientName'] ?? '',
-        email: json['email'] ?? '',
-        phone: json['phone'] ?? '',
-        gender: json['gender'] ?? '',
-        enabled: json['enabled'] ?? false);
+      id: json['id'],
+      clientName: json['clientName'],
+      email: json['email'],
+      phone: json['phone'],
+      gender: json['gender'],
+      birthday: DateTime.parse(json['birthday']),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -32,7 +33,7 @@ class User {
       'email': email,
       'phone': phone,
       'gender': gender,
-      'enabled': enabled
+      'birthday': birthday!.toIso8601String(),
     };
   }
 }

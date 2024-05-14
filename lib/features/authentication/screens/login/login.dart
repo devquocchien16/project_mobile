@@ -32,10 +32,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> loginWithEmail() async {
     setState(() => _isLoading = true);
     try {
-      String token = await signInService.loginWebAccount(emailController.text, passwordController.text);
+      String token = await signInService.loginWebAccount(
+          emailController.text, passwordController.text);
       if (token.isNotEmpty) {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // await prefs.setString('token', token);
+        final SharedPreferences catDetailsId =
+            await SharedPreferences.getInstance();
+        await catDetailsId.setString('emailLogin', emailController.text);
         Get.offAll(() => const NavigationMenu());
       } else {
         Get.snackbar("Login Error", "Login failed, no token received.");
@@ -57,17 +61,22 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               Image(height: 150, image: AssetImage(TImages.onBoardingImage1)),
-              Text(TTexts.loginTitle1, style: Theme.of(context).textTheme.headlineMedium),
+              Text(TTexts.loginTitle1,
+                  style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: TSizes.sm),
-              Text(TTexts.loginSubTitle, style: Theme.of(context).textTheme.bodyMedium),
+              Text(TTexts.loginSubTitle,
+                  style: Theme.of(context).textTheme.bodyMedium),
               Form(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: TSizes.spaceBtwSections),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: TSizes.spaceBtwSections),
                   child: Column(
                     children: [
                       TextFormField(
                         controller: emailController,
-                        decoration: const InputDecoration(prefixIcon: Icon(Iconsax.direct_right), labelText: 'Email'),
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Iconsax.direct_right),
+                            labelText: 'Email'),
                       ),
                       const SizedBox(height: TSizes.spaceBtwInputField),
                       TextFormField(
@@ -107,14 +116,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: _isLoading ? null : loginWithEmail,
-                          child: _isLoading ? const CircularProgressIndicator() : const Text(TTexts.signIn),
+                          // onPressed: () => Get.to(() => const NavigationMenu()),
+                          child: _isLoading
+                              ? const CircularProgressIndicator()
+                              : const Text(TTexts.signIn),
                         ),
                       ),
                       const SizedBox(height: TSizes.spaceBtwItems),
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
-                          onPressed: _isLoading ? null : () => Get.to(() => const SignupScreen()),
+                          onPressed: _isLoading
+                              ? null
+                              : () => Get.to(() => const SignupScreen()),
                           child: const Text(TTexts.createAccount),
                         ),
                       ),

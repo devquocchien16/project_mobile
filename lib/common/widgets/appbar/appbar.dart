@@ -1,3 +1,4 @@
+import 'package:fashion_star_shop/features/shop/screens/home/home.dart';
 import 'package:fashion_star_shop/utils/constants/sizes.dart';
 import 'package:fashion_star_shop/utils/device/device_utility.dart';
 import 'package:flutter/material.dart';
@@ -27,15 +28,15 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget {
         automaticallyImplyLeading: false,
         leading: showBackArrow
             ? IconButton(
-          onPressed: () => Get.back(),
-          icon: const Icon(Icons.arrow_left),
-        )
+                onPressed: () => Get.to(() => const HomeScreen()),
+                icon: const Icon(Icons.arrow_left),
+              )
             : leadingIcon != null
-            ? IconButton(
-          onPressed: leadingOnPressed,
-          icon: Icon(leadingIcon),
-        )
-            : null,
+                ? IconButton(
+                    onPressed: leadingOnPressed,
+                    icon: Icon(leadingIcon),
+                  )
+                : null,
         title: title,
         actions: actions,
       ), // AppBar

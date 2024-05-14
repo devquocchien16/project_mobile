@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:fashion_star_shop/features/shop/models/Product.dart';
+import 'package:fashion_star_shop/features/shop/models/variant.dart';
 import 'package:http/http.dart' as http;
 
 class HomeManagementApi {
