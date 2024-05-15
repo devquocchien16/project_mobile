@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:fashion_star_shop/features/personalization/model/user.dart';
+import 'package:fashion_star_shop/features/shop/models/Payments.dart';
+import 'package:fashion_star_shop/features/shop/models/address.dart';
+import 'package:fashion_star_shop/features/shop/models/cartLine.dart';
 import 'package:fashion_star_shop/features/shop/models/findvariantrequest.dart';
 import 'package:fashion_star_shop/features/shop/models/product_detail.dart';
 import 'package:fashion_star_shop/features/shop/models/variant_detail.dart';
@@ -73,6 +76,96 @@ class CatManagementApi {
     } catch (e) {
       print('Caught error: $e');
       return null; // Or handle the exception as needed
+    }
+  }
+
+  static Future<List<PaymentInfo>?> findPaymentList() async {
+    var url = Uri.parse(
+        '$VARIANT_MANAGEMENT_API/orders/getPaymentMethodCatFlutterProVip/'); // Change URL as needed
+    try {
+      var response = await http.get(
+        url,
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> jsonResponse = jsonDecode(response.body);
+        return jsonResponse.map((data) => PaymentInfo.fromJson(data)).toList();
+      } else {
+        throw Exception('Failed to load variant');
+      }
+    } catch (e) {
+      print('Caught error: $e');
+      return null; // Or handle the exception as needed
+    }
+  }
+
+  static Future<List<Address>?> findAddressList(String userId) async {
+    var url = Uri.parse(
+        '$VARIANT_MANAGEMENT_API/payments/address/$userId'); // Change URL as needed
+    try {
+      var response = await http.get(
+        url,
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> jsonResponse = jsonDecode(response.body);
+        return jsonResponse.map((data) => Address.fromJson(data)).toList();
+      } else {
+        throw Exception('Failed to load variant');
+      }
+    } catch (e) {
+      print('Caught error: $e');
+      return null; // Or handle the exception as needed
+    }
+  }
+
+  static Future<bool> saveOrder(
+      String userId,
+      String orderDate,
+      String addressId,
+      String orderTotal,
+      String shippingMethodId,
+      List<CartLine> cartList) async {
+    final urlSaveOrders =
+        Uri.parse('$VARIANT_MANAGEMENT_API/orders/saveOrderCatFlutterProVip/');
+    final urlSaveOrderItems = Uri.parse(
+        '$VARIANT_MANAGEMENT_API/orders/saveOrderItemCatFlutterProVip/');
+
+    final headers = {'Content-Type': 'application/json'};
+    final orderData = jsonEncode({
+      'userId': userId,
+      'orderDate': DateTime.now().toString(),
+      'addressId': addressId,
+      'orderTotal': orderTotal,
+      'paymentMethodId': shippingMethodId,
+    });
+    try {
+      final responseOrder =
+          await http.post(urlSaveOrders, headers: headers, body: orderData);
+
+      if (responseOrder.statusCode == 200) {
+        print("ok");
+        for (var item in cartList) {
+          final responseOrderItems = await http.post(urlSaveOrderItems,
+              headers: headers,
+              body: jsonEncode({
+                "variantId": item.variantChosen.id.toString(),
+                "price": item.variantChosen.salePrice.toString(),
+                "quantity": item.quantity.toString(),
+                "orderId": responseOrder.body
+              }));
+          if (responseOrderItems.statusCode != 200) {
+            return false;
+          }
+        }
+        return true;
+      } else {
+        print("not ok${responseOrder.statusCode}");
+        return false;
+      }
+    } catch (e) {
+      print('Error occurred while sending order: $e');
+      return false;
     }
   }
 

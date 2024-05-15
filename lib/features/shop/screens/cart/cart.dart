@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:fashion_star_shop/features/shop/models/cartLine.dart';
 import 'package:fashion_star_shop/features/shop/models/product_detail.dart';
 import 'package:fashion_star_shop/features/shop/models/variant.dart';
+import 'package:fashion_star_shop/features/shop/screens/home/home.dart';
 import 'package:fashion_star_shop/features/shop/screens/product_detail/product_detail.dart';
 import 'package:fashion_star_shop/services/variant_service.dart';
+import 'package:fashion_star_shop/utils/constants/sizes.dart';
 import 'package:get/get.dart';
 import 'package:fashion_star_shop/features/shop/screens/checkout/checkout.dart';
 import 'package:flutter/material.dart';
@@ -146,13 +148,6 @@ class _CartScreenState extends State<CartScreen> {
                   title: Text(cartLine.variantChosen.name),
                   subtitle: Text(
                       'Quantity: ${cartLine.quantity}\nPrice: \$${(cartLine.quantity * cartLine.variantChosen.salePrice).toStringAsFixed(2)}'),
-                  // trailing: IconButton(
-                  //   icon: Icon(Icons.remove_circle_outline),
-                  //   onPressed: () => setState(() {
-                  //     widget.cartLines.removeAt(index);
-                  //     saveCartLines(widget.cartLines);
-                  //   }),
-                  // ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -205,20 +200,65 @@ class _CartScreenState extends State<CartScreen> {
                 );
               },
             ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CheckoutScreen()),
+      bottomNavigationBar: widget.cartLines.isEmpty
+          ? BottomAppBar(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeScreen()),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      side: const BorderSide(
+                          color: Colors.red,
+                          width: 2.0), // Border color and width
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              8)), // Optional: Rounded corners// Set the background color
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50,
+                          vertical: 20), // Set the padding for larger size
+                      textStyle: const TextStyle(
+                          fontSize:
+                              16), // You can also adjust the font size here
+                    ),
+                    child: const Text('Back to Home'),
+                  ),
+                ],
               ),
-              child: const Text('Proceed to Checkout'),
+            )
+          : BottomAppBar(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.to(() => CheckoutScreen(cartLines: widget.cartLines));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      side: const BorderSide(
+                          color: Colors.green,
+                          width: 2.0), // Border color and width
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              8)), // Optional: Rounded corners// Set the background color
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50,
+                          vertical: 20), // Set the padding for larger size
+                      textStyle: const TextStyle(
+                          fontSize:
+                              16), // You can also adjust the font size here
+                    ),
+                    child: const Text('Proceed to Checkout'),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
