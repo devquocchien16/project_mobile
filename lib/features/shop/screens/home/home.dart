@@ -1,8 +1,13 @@
 import 'package:fashion_star_shop/common/widgets/custom_shapes/containers/search_container.dart';
 import 'package:fashion_star_shop/features/shop/screens/home/widgets/home_appbar.dart';
+import 'package:fashion_star_shop/features/shop/screens/home/widgets/home_categories.dart';
+import 'package:fashion_star_shop/features/shop/screens/home/widgets/promo_slider.dart';
+import 'package:fashion_star_shop/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:fashion_star_shop/features/shop/models/Product.dart';
 import 'package:fashion_star_shop/services/products_service.dart';
+import 'package:fashion_star_shop/features/shop/screens/all_products/all_products.dart';
 import 'package:fashion_star_shop/common/widgets/products/product_cards/product_card_vertical.dart';
 import 'package:fashion_star_shop/common/widgets/texts/section_heading.dart';
 import 'package:fashion_star_shop/utils/constants/sizes.dart';
@@ -34,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
             const TPrimaryHeaderContainer(
               child: Column(
                 children: [
-                  // Phần header của bạn ở đây
                   THomeAppBar(),
                   SizedBox(height: TSizes.spaceBtwSections),
                   TSearchContainer(
@@ -52,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: TSizes.spaceBtwItems,
                         ),
-                        // THomeCategories(),
+                        THomeCategories(),
                       ],
                     ),
                   ),
@@ -66,8 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(TSizes.defaultSpace),
               child: Column(
                 children: [
-                  // Phần slider và heading 'All products' của bạn ở đây
-                  const SizedBox(height: TSizes.spaceBtwSections),
+                  // TPromoSlider(banners: [TImages.promoBonner1, TImages.promoBonner2], ),
+                  SizedBox(height: TSizes.spaceBtwSections),
                   FutureBuilder<List<Product>>(
                     future: futureProducts,
                     builder: (context, snapshot) {
@@ -76,26 +80,36 @@ class _HomeScreenState extends State<HomeScreen> {
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else if (snapshot.hasData) {
-                        return GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 0.7,
-                          ),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            return SizedBox(
-                              width: MediaQuery.of(context).size.width /
-                                  2, // 15 là tổng margin và spacing
-                              child: TProductCardVertical(
-                                product: snapshot.data![index],
-                                productId: 0,
-                              ),
-                            );
+                        return LayoutBuilder(
+                          builder: (BuildContext context,
+                              BoxConstraints constraints) {
+                            if (constraints.maxHeight == 0) {
+                              return SizedBox
+                                  .shrink(); // Trả về widget rỗng nếu không có không gian
+                            } else {
+                              return GridView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: 0.7,
+                                ),
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  return SizedBox(
+                                    width: MediaQuery.of(context).size.width /
+                                        2, // 15 là tổng margin và spacing
+                                    child: TProductCardVertical(
+                                      product: snapshot.data![index],
+                                      productId: 0,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
                           },
                         );
                       } else {

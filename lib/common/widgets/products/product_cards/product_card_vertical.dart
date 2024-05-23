@@ -11,6 +11,7 @@ import 'package:fashion_star_shop/common/widgets/images/images_rounded.dart';
 import 'package:fashion_star_shop/utils/constants/colors.dart';
 import 'package:fashion_star_shop/utils/constants/sizes.dart';
 import 'package:fashion_star_shop/utils/helpers/helper_function.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,41 +47,43 @@ class TProductCardVertical extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TRoundedContainer(
-                height: 180,
-                padding: const EdgeInsets.all(TSizes.sm),
-                backgroundColor: dark ? TColors.dark : TColors.light,
-                child: Stack(
-                  children: [
-                    TRoundedImage(
-                      imageUrl: product.mainPicture,
-                      applyImageRadius: false,
-                    ),
-                    // Positioned(
-                    //   top: 12,
-                    //   child: TRoundedContainer(
-                    //     radius: TSizes.sm,
-                    //     backgroundColor: TColors.secondary.withOpacity(0.8),
-                    //     padding: const EdgeInsets.symmetric(
-                    //       horizontal: TSizes.sm,
-                    //       vertical: TSizes.xs,
-                    //     ),
-                    //     child: Text(
-                    //       ' ',
-                    //       style: Theme.of(context)
-                    //           .textTheme
-                    //           .labelLarge!
-                    //           .apply(color: Colors.black),
-                    //     ),
-                    //   ),
-                    // ),
-                    const Positioned(
-                      top: 0,
-                      right: 0,
-                      child: TCircularIcon(
-                          icon: Iconsax.heart5, color: Colors.red),
-                    ),
-                  ],
+              Flexible(
+                child: TRoundedContainer(
+                  height: 180,
+                  padding: const EdgeInsets.all(TSizes.sm),
+                  backgroundColor: dark ? TColors.dark : TColors.light,
+                  child: Stack(
+                    children: [
+                      TRoundedImage(
+                        imageUrl: product.mainPicture,
+                        applyImageRadius: false,
+                      ),
+                      // Positioned(
+                      //   top: 12,
+                      //   child: TRoundedContainer(
+                      //     radius: TSizes.sm,
+                      //     backgroundColor: TColors.secondary.withOpacity(0.8),
+                      //     padding: const EdgeInsets.symmetric(
+                      //       horizontal: TSizes.sm,
+                      //       vertical: TSizes.xs,
+                      //     ),
+                      //     child: Text(
+                      //       ' ',
+                      //       style: Theme.of(context)
+                      //           .textTheme
+                      //           .labelLarge!
+                      //           .apply(color: Colors.black),
+                      //     ),
+                      //   ),
+                      // ),
+                      const Positioned(
+                        top: 0,
+                        right: 0,
+                        child: TCircularIcon(
+                            icon: Iconsax.heart5, color: Colors.red),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: TSizes.xs),
